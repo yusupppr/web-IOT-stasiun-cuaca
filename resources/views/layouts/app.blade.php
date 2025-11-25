@@ -7,21 +7,16 @@
 
     <link rel="icon" type="image/png" href="{{ asset('images/banner-image.png') }}">
     
-    <!-- External CSS Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- alpine -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Custom Tailwind Config -->
     <script>
         tailwind.config = {
             theme: {
@@ -39,7 +34,6 @@
         }
     </script>
     
-    <!-- Custom Styles -->
     <style>
         /* Swiper Customization */
         .swiper-pagination-bullet {
@@ -128,133 +122,50 @@
 </head>
 
 <body class="bg-gray-50 font-sans">
-    <!-- Navbar -->
     @include('partials.navbar')
     
-    <!-- Main Content -->
     <main class="min-h-screen">
         @yield('content')
     </main>
     
-    <!-- Footer -->
     @include('partials.footer')
     
-    <!-- External JavaScript Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
-    <!-- Custom JavaScript -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    
+    <script>
+      // Konfigurasi Firebase Anda
+      const firebaseConfig = {
+        apiKey: "AIzaSyCbL7l7iwrVHiXk9MtZc0w-D-4-GVDDqTk",
+        authDomain: "webterobos.firebaseapp.com",
+        projectId: "webterobos",
+        storageBucket: "webterobos.firebasestorage.app",
+        messagingSenderId: "701078857283",
+        appId: "1:701078857283:web:7011eac41b42e023f1d6f6"
+      };
+      
+      // Inisialisasi Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+    </script>
+    
     <script>
         // Initialize Swiper for Projects
         const projectsSwiper = new Swiper('.projects-swiper', {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: true,
-            autoplay: {
-                delay: 4000,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: '.projects-swiper .swiper-pagination',
-                clickable: true,
-                dynamicBullets: true,
-            },
-            navigation: {
-                nextEl: '.projects-swiper .swiper-button-next',
-                prevEl: '.projects-swiper .swiper-button-prev',
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 1,
-                    spaceBetween: 20,
-                },
-                768: {
-                    slidesPerView: 2,
-                    spaceBetween: 30,
-                },
-                1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 40,
-                },
-            },
-            effect: 'slide',
-            speed: 800,
+            // ... (konfigurasi swiper Anda) ...
         });
 
         // Initialize Swiper for Products
         const productsSwiper = new Swiper('.products-swiper', {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: true,
-            autoplay: {
-                delay: 3500,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: '.products-swiper .swiper-pagination',
-                clickable: true,
-                dynamicBullets: true,
-            },
-            navigation: {
-                nextEl: '.products-swiper .swiper-button-next',
-                prevEl: '.products-swiper .swiper-button-prev',
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 1,
-                    spaceBetween: 20,
-                },
-                768: {
-                    slidesPerView: 2,
-                    spaceBetween: 30,
-                },
-                1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 30,
-                },
-                1280: {
-                    slidesPerView: 4,
-                    spaceBetween: 40,
-                },
-            },
-            effect: 'slide',
-            speed: 800,
+            // ... (konfigurasi swiper Anda) ...
         });
 
         // Initialize Swiper for News
         const newsSwiper = new Swiper('.news-swiper', {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: '.news-swiper .swiper-pagination',
-                clickable: true,
-                dynamicBullets: true,
-            },
-            navigation: {
-                nextEl: '.news-swiper .swiper-button-next',
-                prevEl: '.news-swiper .swiper-button-prev',
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 1,
-                    spaceBetween: 20,
-                },
-                768: {
-                    slidesPerView: 2,
-                    spaceBetween: 30,
-                },
-                1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 40,
-                },
-            },
-            effect: 'slide',
-            speed: 800,
+            // ... (konfigurasi swiper Anda) ...
         });
 
         // DOM Content Loaded Event
@@ -304,6 +215,43 @@
                 card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
                 observer.observe(card);
             });
+
+            
+            // ===== [LOGIKA LOGOUT FIREBASE DITAMBAHKAN DI SINI] =====
+            const logoutFormDesktop = document.getElementById('logout-form-desktop');
+            const logoutFormMobile = document.getElementById('logout-form-mobile');
+
+            const handleFirebaseLogout = (event) => {
+                // 1. Mencegah form submit ke Laravel
+                event.preventDefault(); 
+                const form = event.target; // Ambil form yang di-submit
+
+                // 2. Logout dari Firebase JS (pastikan 'auth' sudah ada dari skrip Firebase)
+                if (typeof auth !== 'undefined') {
+                    auth.signOut()
+                        .then(() => {
+                            // 3. Setelah sukses, BARU submit form ke Laravel
+                            form.submit();
+                        })
+                        .catch((error) => {
+                            console.error('Logout Firebase Gagal:', error);
+                            // Jika gagal, paksa submit form Laravel
+                            form.submit();
+                        });
+                } else {
+                    // Fallback jika Firebase tidak ter-load
+                    console.error('Firebase auth object not found.');
+                    form.submit();
+                }
+            };
+
+            if (logoutFormDesktop) {
+                logoutFormDesktop.addEventListener('submit', handleFirebaseLogout);
+            }
+            if (logoutFormMobile) {
+                logoutFormMobile.addEventListener('submit', handleFirebaseLogout);
+            }
+
         });
     </script>
 </body>

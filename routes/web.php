@@ -2,9 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\NewsController;
-use App\Http\Controllers\ShopController;
 use App\Http\Controllers\Auth\CustomerAuthController;
 use App\Http\Controllers\KursusController;
 use App\Http\Controllers\KomunitasController;
@@ -22,6 +20,8 @@ Route::prefix('news')->name('news.')->group(function () {
 
 // Pembelajaran & Kursus Routes 
 Route::get('/pembelajaran', [KursusController::class, 'info'])->name('pembelajaran.info');
+Route::get('/pembelajaran/{topik:slug}', [KursusController::class, 'show'])->name('pembelajaran.show');
+Route::get('/pembelajaran/{topik:slug}/download-pdf', [KursusController::class, 'downloadPdf'])->name('pembelajaran.download-pdf');
 Route::get('/kursus', [KursusController::class, 'index'])->name('kursus.index');
 
 // Komunitas
@@ -34,6 +34,10 @@ Route::get('/perangkat', [PerangkatController::class, 'index'])->name('perangkat
 Route::get('/kontak', [ContactController::class, 'index'])->name('contact.index');
 
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
+
+    Route::post('/firebase/login', [CustomerAuthController::class, 'firebaseLogin'])->name('firebase.login');
+
+    Route::post('/firebase/register', [CustomerAuthController::class, 'firebaseRegister'])->name('firebase.register');
 // Guest routes (hanya bisa diakses jika belum login)
     Route::middleware('guest:customer')->group(function () {
         Route::get('/login', [CustomerAuthController::class, 'showLoginForm'])->name('login');

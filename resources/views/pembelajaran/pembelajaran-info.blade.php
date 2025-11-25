@@ -109,7 +109,13 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center">
                     <div>
                         {{-- Menggunakan Storage::url() untuk mengambil gambar dari 'storage/app/public/' --}}
-                        <img src="{{ Storage::url($item->image) }}" alt="{{ $item->title }}" class="rounded-lg w-full shadow-md">
+                        @if($item->image)
+                            <img src="{{ Storage::url($item->image) }}" alt="{{ $item->title }}" class="rounded-lg w-full shadow-md">
+                        @else
+                            <div class="rounded-lg w-full shadow-md bg-gray-200 h-64 flex items-center justify-center">
+                                <span class="text-gray-500">Gambar tidak tersedia</span>
+                            </div>
+                        @endif
                     </div>
                     <div>
                         <h3 class="text-2xl font-bold mb-3 flex items-center space-x-2 text-[#002343] group-hover:text-white transition-colors duration-300">
@@ -120,7 +126,7 @@
                             <span>{{ $item->title }}</span>
                         </h3>
                         <p class="mb-4 text-gray-600 group-hover:text-sky-100 transition-colors duration-300">
-                            {{ $item->description }}
+                            {!! strip_tags($item->description) !!}
                         </p>
                         <div class="space-y-1.5 text-sm text-gray-700 group-hover:text-white transition-colors duration-300">
                             <p><strong class="font-semibold text-gray-800 group-hover:text-white/90">Teknologi:</strong> {{ $item->teknologi }}</p>
@@ -133,8 +139,8 @@
                             Harga: <span>Rp {{ number_format($item->harga, 0, ',', '.') }},-</span>
                         </p>
                         <div class="flex flex-col sm:flex-row gap-3">
-                            {{-- Anda bisa arahkan link ini ke halaman detail, misal: route('topik.show', $item->slug) --}}
-                            <a href="#" class="group/btn inline-flex items-center justify-center px-6 py-3 bg-blue-100 group-hover:bg-white text-[#0157B2] group-hover:text-[#0157B2] font-semibold rounded-full transition-all duration-300 transform hover:scale-105">
+                            {{-- Link ke detail paket --}}
+                            <a href="{{ route('pembelajaran.show', $item->slug) }}" class="group/btn inline-flex items-center justify-center px-6 py-3 bg-blue-100 group-hover:bg-white text-[#0157B2] group-hover:text-[#0157B2] font-semibold rounded-full transition-all duration-300 transform hover:scale-105">
                                 Pelajari Lanjut
                             </a>
                             <a href="#" class="group/btn inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] group-hover:bg-white text-white group-hover:text-[#0157B2] font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg">
@@ -254,12 +260,12 @@
                 </div>
             </div>
 
-            <div class="mt-8">
+            <!-- <div class="mt-8">
                 <a href="#" class="group inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:from-[#01C0DB] hover:to-[#0157B2] text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                     Ajukan Sertifikasi Sekarang
                     <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
                 </a>
-            </div>
+            </div> -->
 
         </div> 
     </div>

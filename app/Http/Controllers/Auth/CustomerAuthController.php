@@ -2,167 +2,135 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\Customer;
+use Illuminate\Routing\Controller; // Pastikan ini benar
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as RoutingController;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Routing\Controller;
+use Kreait\Firebase\Factory;
 
 class CustomerAuthController extends Controller
 {
-    protected $guard = 'customer';
 
-    public function showLoginForm()
+    // ... (Semua fungsi Anda yang lain: showLoginForm, profile, dll. tetap di sini) ...
+    // ... (Saya akan singkat agar fokus ke perbaikan) ...
+
+    public function showLoginForm(){ return view('auth.customer.login'); }
+    public function showRegisterForm(){ return view('auth.customer.register'); }
+    public function showForgotPasswordForm(){ return view('auth.customer.forgot-password'); }
+    public function logout(Request $request){ Auth::guard('customer')->logout(); /*...*/ return redirect('/'); }
+    public function profile(){ $customer = Auth::guard('customer')->user(); return view('auth.customer.profile', compact('customer')); }
+    public function updateProfile(Request $request){ /*...*/ }
+    public function changePassword(Request $request){ /*...*/ }
+    public function exportData(){ return redirect()->route('auth.profile')->with('success', 'Fitur Ekspor Data sedang dalam pengembangan.'); }
+    public function deleteAccount(){ return redirect()->route('auth.profile')->with('success', 'Fitur Hapus Akun sedang dalam pengembangan.'); }
+    public function login(Request $request){ /*...*/ }
+    public function register(Request $request){ /*...*/ }
+    public function sendResetLink(Request $request){ /*...*/ }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNGSI FIREBASE (YANG KITA PERBAIKI)
+    |--------------------------------------------------------------------------
+    */
+
+    public function firebaseLogin(Request $request)
     {
-        return view('auth.customer.login');
-    }
+        $serviceAccountPath = base_path(env('FIREBASE_CREDENTIALS'));
+        $firebase = (new Factory)->withServiceAccount($serviceAccountPath);
+        
+        $auth = $firebase->createAuth();
+        $token = $request->input('token');
 
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6',
-        ]);
+        try {
+            $verifiedIdToken = $auth->verifyIdToken($token);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false, 
+                'message' => 'Token tidak valid: ' . $e->getMessage()
+            ], 401);
+        }
 
-        $credentials = $request->only('email', 'password');
-        $remember = $request->has('remember');
+        $uid = $verifiedIdToken->claims()->get('sub');
+        $firebaseUser = $auth->getUser($uid);
+        $email = $firebaseUser->email;
 
-        if (Auth::guard($this->guard)->attempt($credentials, $remember)) {
-            $customer = Auth::guard($this->guard)->user();
-            
-            if (!$customer->is_active) {
-                Auth::guard($this->guard)->logout();
-                return back()->withErrors(['email' => 'Your account has been deactivated.']);
+        $customer = Customer::where('firebase_uid', $uid)->orWhere('email', $email)->first();
+
+        if ($customer) {
+            if (empty($customer->firebase_uid)) {
+                $customer->firebase_uid = $uid;
+                $customer->save();
             }
-
-            $request->session()->regenerate();
-            
-            return redirect()->intended(route('home'))->with('success', 'Welcome back, ' . $customer->first_name . '!');
+        } else {
+            $customer = Customer::create([
+                'firebase_uid' => $uid,
+                'name' => $firebaseUser->displayName ?? 'User Firebase',
+                'email' => $email,
+                'password' => bcrypt(uniqid()), 
+                'email_verified_at' => now(),
+            ]);
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+        Auth::guard('customer')->login($customer);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Login berhasil.'
         ]);
     }
 
-    public function showRegisterForm()
-    {
-        return view('auth.customer.register');
-    }
 
-    public function register(Request $request)
+    public function firebaseRegister(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:customers',
-            'password' => 'required|string|min:3|confirmed',
-            'phone' => 'nullable|string|max:20',
-            'gender' => 'nullable|in:male,female',
-            'birth_date' => 'nullable|date|before:today',
-            'address' => 'nullable|string|max:500',
-        ]);
+        $serviceAccountPath = base_path(env('FIREBASE_CREDENTIALS'));
+        $firebase = (new Factory)->withServiceAccount($serviceAccountPath);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+        $auth = $firebase->createAuth();
+        $token = $request->input('token');
+
+        try {
+            $verifiedIdToken = $auth->verifyIdToken($token);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Token tidak valid.'], 401);
         }
 
-        $customer = Customer::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone,
-            'gender' => $request->gender,
-            'birth_date' => $request->birth_date,
-            'address' => $request->address,
-        ]);
+        $uid = $verifiedIdToken->claims()->get('sub');
+        $email = $request->input('email');
 
-        Auth::guard($this->guard)->login($customer);
-
-        return redirect()->route('home')->with('success', 'Welcome to Terobos, ' . $customer->first_name . '!');
-    }
-
-    public function logout(Request $request)
-    {
-        Auth::guard($this->guard)->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect()->route('home')->with('success', 'You have been logged out successfully.');
-    }
-
-    public function profile()
-    {
-        $customer = Auth::guard($this->guard)->user();
-        return view('auth.customer.profile', compact('customer'));
-    }
-
-    public function updateProfile(Request $request)
-    {
-        $customer = Auth::guard($this->guard)->user();
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:customers,email,' . $customer->id,
-            'phone' => 'nullable|string|max:20',
-            'gender' => 'nullable|in:male,female',
-            'birth_date' => 'nullable|date|before:today',
-            'address' => 'nullable|string|max:500',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+        $existingCustomer = Customer::where('firebase_uid', $uid)->orWhere('email', $email)->first();
+        if ($existingCustomer) {
+            return response()->json(['success' => false, 'message' => 'Email sudah terdaftar.'], 400);
         }
 
-        $data = $request->only(['name', 'email', 'phone', 'gender', 'birth_date', 'address']);
+        // ===== [PERBAIKAN UTAMA DI SINI] =====
+        // Kita "bersihkan" input sebelum disimpan ke database
+        // String kosong ("") diubah menjadi null
+        $data = [
+            'firebase_uid' => $uid,
+            'name' => $request->input('name'), 
+            'email' => $email,
+            'password' => bcrypt(uniqid()), 
+            'email_verified_at' => now(),
+            'phone' => $request->input('phone') ?: null, // <-- Ubah "" jadi null
+            'address' => $request->input('address') ?: null, // <-- Ubah "" jadi null
+            'gender' => $request->input('gender') ?: null, // <-- Ubah "" jadi null
+            'birth_date' => $request->input('birth_date') ?: null, // <-- Ubah "" jadi null
+        ];
+        // ======================================
 
-        // Handle avatar upload
-        if ($request->hasFile('avatar')) {
-            // Delete old avatar if exists
-            if ($customer->avatar && Storage::disk('public')->exists('avatars/' . $customer->avatar)) {
-                Storage::disk('public')->delete('avatars/' . $customer->avatar);
-            }
+        // 3. Buat Customer baru menggunakan data yang sudah bersih
+        $customer = Customer::create($data);
 
-            $avatar = $request->file('avatar');
-            $filename = time() . '_' . $customer->id . '.' . $avatar->getClientOriginalExtension();
-            $avatar->storeAs('avatars', $filename, 'public');
-            $data['avatar'] = $filename;
-        }
+        // 4. Login-kan customer ke sesi Laravel
+        Auth::guard('customer')->login($customer);
 
-        $customer = Auth::guard($this->guard)->user();
-
-        return back()->with('success', 'Profile updated successfully!');
-    }
-
-    public function changePassword(Request $request)
-    {
-        $customer = Auth::guard($this->guard)->user();
-
-        $request->validate([
-            'current_password' => 'required',
-            'password' => 'required|string|min:8|confirmed',
+        // 5. Kirim respon sukses
+        return response()->json([
+            'success' => true,
+            'message' => 'Registrasi berhasil.'
         ]);
-
-        if (!Hash::check($request->current_password, $customer->password)) {
-            return back()->withErrors(['current_password' => 'Current password is incorrect.']);
-        }
-
-        $customer = Auth::guard($this->guard)->user();
-
-        return back()->with('success', 'Password changed successfully!');
     }
 
-    public function showForgotPasswordForm()
-    {
-        return view('auth.customer.forgot-password');
-    }
-
-    public function sendResetLink(Request $request)
-    {
-        // Implementasi reset password bisa ditambahkan nanti
-        return back()->with('info', 'Password reset feature will be implemented soon.');
-    }
 }

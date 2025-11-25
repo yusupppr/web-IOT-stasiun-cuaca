@@ -16,10 +16,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Membuat User Admin
+        // 1. Membuat User Admin untuk Filament Panel
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Admin Terobos',
+            'email' => 'admin@terobos.com',
+            'password' => bcrypt('admin123456'),
         ]);
 
         // 2. Membuat SATU Penulis spesifik 
@@ -28,6 +29,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@terobos.com',
             'password' => bcrypt('password'), 
         ]);
+
+        // 3. Seed Topik Pembelajaran
+        $this->call(TopikPembelajaranSeeder::class);
         
         // --- BERITA 1 ---
         $title1 = 'Robotika Menjadi Ekstrakurikuler Unggulan di SMK';
@@ -63,40 +67,6 @@ class DatabaseSeeder extends Seeder
             'kategory' => 'Komunitas',
             'description' => 'Kompetisi robotik internal pertama Terobos sukses digelar akhir pekan lalu. Acara ini diikuti oleh lebih dari 50 tim dari berbagai sekolah mitra yang memamerkan kreativitas mereka...',
             'thumbnail' => 'images/banner-image.png'
-        ]);
-
-            // pembelajaran 1
-        $title1 = 'Omnidirectional Robot';
-        TopikPembelajaran::create([
-            'title' => $title1,
-            'slug' => \Illuminate\Support\Str::slug($title1),
-            'description' => 'Belajar sistem robot bergerak ke segala arah.',
-            'image' => 'path/ke/gambar-omni.png', 
-            'icon' => 'fas fa-robot', 
-            'teknologi' => 'Motor omni, pengontrol, sensor.',
-            'learning_outcomes' => 'Dasar robotika, pemrograman gerak.',
-            'untuk' => 'Pelajar SMA/SMK, Mahasiswa Teknik.',
-            'modul' => 'Teori robotika, simulasi, praktek.',
-            'perangkat' => 'IMU Controller + Simulator Terobos.',
-            'harga' => 300000, 
-            'order' => 1,
-        ]);
-
-        // pembelajaran 2
-        $title2 = 'Robot Lengan (Arm Robot)';
-        TopikPembelajaran::create([
-            'title' => $title2,
-            'slug' => \Illuminate\Support\Str::slug($title2),
-            'description' => 'Mempelajari kinematika dan pemrograman robot lengan.',
-            'image' => 'path/ke/gambar-lengan.png',
-            'icon' => 'fas fa-robot-arm',
-            'teknologi' => 'Motor Servo, Kontroler, Gripper.',
-            'learning_outcomes' => 'Dasar kinematika, Inverse Kinematics.',
-            'untuk' => 'Mahasiswa Teknik, Hobiis.',
-            'modul' => 'Teori, Simulasi, Praktek.',
-            'perangkat' => 'Servo Controller + Simulator.',
-            'harga' => 450000, 
-            'order' => 2,
         ]);
     }
 }

@@ -16,21 +16,15 @@
         </div>
 
         <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20" data-aos="fade-up" data-aos-delay="100">
-            @if ($errors->any())
-                <div class="mb-6 bg-red-500/10 border border-red-500/50 rounded-lg p-4">
-                    <div class="flex items-center mb-2">
-                        <i class="fas fa-exclamation-triangle text-red-400 mr-2"></i>
-                        <span class="text-red-300 text-sm font-medium">Harap perbaiki kesalahan berikut:</span>
-                    </div>
-                    <ul class="text-red-300 text-sm space-y-1 ml-6">
-                        @foreach ($errors->all() as $error)
-                            <li>• {{ $error }}</li>
-                        @endforeach
-                    </ul>
+            
+            <div id="firebase-error" class="hidden mb-6 bg-red-500/10 border border-red-500/50 rounded-lg p-4">
+                <div class="flex items-center">
+                    <i id="firebase-error-icon" class="fas fa-exclamation-triangle text-red-400 mr-2"></i>
+                    <span id="firebase-error-message" class="text-red-300 text-sm"></span>
                 </div>
-            @endif
+            </div>
 
-            <form method="POST" action="{{ route('auth.register.post') }}" class="space-y-6">
+            <form id="register-form" class="space-y-6">
                 @csrf
                 
                 <div>
@@ -94,7 +88,7 @@
                              }" 
                              class="relative" @click.away="open = false">
                             
-                            <input type="hidden" name="gender" x-model="selected">
+                            <input type="hidden" name="gender" id="gender" x-model="selected">
 
                             <button @click="open = !open" type="button" class="flex items-center justify-between w-full px-4 py-3 text-left bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300">
                                 <span x-text="selectedText" :class="{ 'text-gray-400': selected === '' }"></span>
@@ -119,7 +113,7 @@
                             </div>
                         </div>
                     </div>
-                    </div>
+                </div>
 
                 <div>
                     <label for="birth_date" class="block text-sm font-medium text-gray-200 mb-2">
@@ -196,15 +190,30 @@
                     </label>
                 </div>
 
-                <button type="submit" 
+                <button type="submit" id="register-button"
                         class="w-full relative group bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-cyan-500/25">
                     <span class="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-500 opacity-30 blur-sm group-hover:opacity-100 transition-all duration-500 rounded-lg"></span>
                     <span class="relative flex items-center justify-center">
                         <i class="fas fa-user-plus mr-2"></i>
-                        Buat Akun
+                        <span id="register-button-text">Buat Akun</span>
+                        <i id="register-spinner" class="fas fa-spinner fa-spin hidden ml-2"></i>
                     </span>
                 </button>
 
+                <div class="my-4 flex items-center">
+                    <div class="flex-grow border-t border-white/20"></div>
+                    <span class="mx-4 flex-shrink text-gray-400 text-sm">ATAU</span>
+                    <div class="flex-grow border-t border-white/20"></div>
+                </div>
+
+                <button type="button" id="google-login-button" 
+                        class="w-full relative group bg-white hover:bg-gray-200 text-gray-900 font-semibold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    <span class="relative flex items-center justify-center">
+                        <img class="w-5 h-5 mr-3" src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google logo">
+                        Daftar dengan Google
+                        <i id="google-login-spinner" class="fas fa-spinner fa-spin hidden ml-3"></i>
+                    </span>
+                </button>
                 <div class="relative my-6">
                     <div class="absolute inset-0 flex items-center">
                         <div class="w-full border-t border-white/20"></div>
@@ -233,6 +242,7 @@
 </div>
 
 <script>
+// --- Fungsi Toggle Password ---
 function togglePassword(fieldId) {
     const passwordField = document.getElementById(fieldId);
     const passwordIcon = document.getElementById(fieldId + '-icon');
@@ -247,5 +257,153 @@ function togglePassword(fieldId) {
         passwordIcon.classList.add('fa-eye');
     }
 }
+
+// --- Logika Form Utama ---
+document.addEventListener('DOMContentLoaded', function() {
+    // Ambil elemen-elemen Form
+    const registerForm = document.getElementById('register-form');
+    const registerButton = document.getElementById('register-button');
+    const registerButtonText = document.getElementById('register-button-text');
+    const registerSpinner = document.getElementById('register-spinner');
+    
+    // Ambil elemen Google
+    const googleLoginButton = document.getElementById('google-login-button');
+    const googleLoginSpinner = document.getElementById('google-login-spinner');
+    
+    // Ambil elemen Error
+    const errorDiv = document.getElementById('firebase-error');
+    const errorMessage = document.getElementById('firebase-error-message');
+    const errorIcon = document.getElementById('firebase-error-icon');
+    
+    // Ambil Token CSRF
+    const csrfToken = registerForm.querySelector('input[name="_token"]').value;
+
+    // --- Fungsi Bantuan untuk Tampilkan Pesan ---
+    function showMessage(message, isSuccess = false) {
+        errorMessage.textContent = message;
+        errorDiv.classList.remove('hidden');
+
+        if (isSuccess) {
+            errorDiv.classList.remove('bg-red-500/10', 'border-red-500/50');
+            errorDiv.classList.add('bg-green-500/10', 'border-green-500/50');
+            errorMessage.classList.remove('text-red-300');
+            errorMessage.classList.add('text-green-300');
+            errorIcon.className = 'fas fa-check-circle text-green-400 mr-2';
+        } else {
+            errorDiv.classList.add('bg-red-500/10', 'border-red-500/50');
+            errorDiv.classList.remove('bg-green-500/10', 'border-green-500/50');
+            errorMessage.classList.add('text-red-300');
+            errorMessage.classList.remove('text-green-300');
+            errorIcon.className = 'fas fa-exclamation-triangle text-red-400 mr-2';
+        }
+        
+        // Sembunyikan semua loading
+        registerButton.disabled = false;
+        registerButtonText.textContent = 'Buat Akun';
+        registerSpinner.classList.add('hidden');
+        googleLoginButton.disabled = false;
+        googleLoginSpinner.classList.add('hidden');
+    }
+
+    // --- 1. Event Listener untuk Form Registrasi (Email/Password) ---
+    registerForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Ambil semua data form
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const passwordConfirm = document.getElementById('password_confirmation').value;
+        const phone = document.getElementById('phone').value;
+        const gender = document.getElementById('gender').value;
+        const birth_date = document.getElementById('birth_date').value;
+        const address = document.getElementById('address').value;
+        
+        if (password !== passwordConfirm) {
+            showMessage('Password dan konfirmasi password tidak cocok.', false);
+            return;
+        }
+
+        // Tampilkan loading
+        registerButton.disabled = true;
+        registerButtonText.textContent = 'Memproses...';
+        registerSpinner.classList.remove('hidden');
+        errorDiv.classList.add('hidden');
+
+        // 1. Buat user di Firebase
+        auth.createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => userCredential.user.getIdToken())
+            .then((idToken) => {
+                // 2. Kirim Token DAN data form lainnya ke Backend Laravel
+                return fetch("{{ route('auth.firebase.register') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({ 
+                        token: idToken,
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        gender: gender,
+                        birth_date: birth_date,
+                        address: address
+                    })
+                });
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // 3. Jika backend sukses, redirect
+                    window.location.href = "{{ route('home') }}";
+                } else {
+                    showMessage(data.message || 'Gagal mendaftarkan akun.', false);
+                }
+            })
+            .catch((error) => {
+                // Tampilkan error jika Firebase gagal
+                showMessage(error.message, false);
+            });
+    });
+
+    // --- 2. Event Listener untuk Tombol Google ---
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
+    googleLoginButton.addEventListener('click', function() {
+        
+        googleLoginButton.disabled = true;
+        googleLoginSpinner.classList.remove('hidden');
+        errorDiv.classList.add('hidden');
+
+        auth.signInWithPopup(googleProvider)
+            .then((result) => result.user.getIdToken())
+            .then((idToken) => {
+                // Kirim Token ke backend (endpoint login, karena backend akan 'findOrCreate')
+                return fetch("{{ route('auth.firebase.login') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken 
+                    },
+                    body: JSON.stringify({ token: idToken })
+                });
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = "{{ route('home') }}"; 
+                } else {
+                    showMessage(data.message || 'Gagal memverifikasi sesi Google.', false);
+                }
+            })
+            .catch((error) => {
+                showMessage(error.message, false);
+            })
+            .finally(() => {
+                googleLoginButton.disabled = false;
+                googleLoginSpinner.classList.add('hidden');
+            });
+    });
+});
 </script>
 @endsection

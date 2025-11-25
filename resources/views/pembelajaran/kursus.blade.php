@@ -1,153 +1,122 @@
-@extends('layouts.app') 
+@extends('layouts.app')
 
 @section('content')
 
-<section class="bg-gradient-to-br from-[#002343] to-[#0157B2] pt-28 pb-16">
-    <div class="container mx-auto px-4 text-center">
-        
-        <h1 class="text-3xl md:text-5xl font-bold text-white mb-8" data-aos="fade-up">
-            Temukan Kursus Terbaik untuk Pengembangan Dirimu!
-        </h1>
+<section class="bg-gradient-to-br from-[#002343] to-[#0157B2] pt-28 pb-16 sm:pb-20">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mb-12" data-aos="fade-up">
+            <span class="inline-block px-4 py-2 bg-white/10 text-cyan-200 rounded-full text-sm font-semibold mb-4">
+              Katalog Kursus
+            </span>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
+                Jelajahi <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#01C0DB] to-cyan-300">Kursus</span> Robotika
+            </h1>
+            <p class="text-lg text-blue-100 mt-4">
+                Temukan dan pelajari berbagai topik pembelajaran robotika dari pemula hingga mahir.
+            </p>
+        </div>
 
-        <form action="#" method="GET" class="flex flex-col md:flex-row justify-center items-center gap-3 max-w-3xl mx-auto mb-8" data-aos="fade-up" data-aos-delay="100">
-            
-            <input 
-                type="text" 
-                placeholder="Kolom Pencarian" 
-                class="w-full md:w-1/2 px-4 py-3 rounded-lg border-gray-300 shadow-md text-gray-800 focus:ring-2 focus:ring-[#01C0DB] focus:outline-none">
-            
-            <select class="w-full md:w-1/4 px-4 py-3 rounded-lg border-gray-300 shadow-md text-gray-500 focus:ring-2 focus:ring-[#01C0DB] focus:outline-none">
-                <option value="">Kategori</option>
-                <option value="robotik">Robotik</option>
-                <option value="iot">IoT</option>
-                <option value="web">Web</option>
-            </select>
-            
-            <select class="w-full md:w-1/4 px-4 py-3 rounded-lg border-gray-300 shadow-md text-gray-500 focus:ring-2 focus:ring-[#01C0DB] focus:outline-none">
-                <option value="">Level</option>
-                <option value="pemula">Pemula</option>
-                <option value="menengah">Menengah</option>
-                <option value="mahir">Mahir</option>
-            </select>
-            
-            <button 
-                type="submit" 
-                class="w-full md:w-auto bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:from-[#01C0DB] hover:to-[#0157B2] text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#01C0DB]">
-                Cari
-            </button>
-        </form>
-
-        <div class="flex flex-col sm:flex-row justify-center items-center gap-4" data-aos="fade-up" data-aos-delay="200">
-            <a href="#" class="w-full sm:w-auto group inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:from-[#01C0DB] hover:to-[#0157B2] text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                Gabung Sekarang
-            </a>
-            <a href="#" class="w-full sm:w-auto group inline-flex items-center justify-center px-8 py-3 bg-white text-gray-800 hover:bg-gray-50 font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                Info Lainnya
+        <div class="flex flex-wrap gap-3" data-aos="fade-up" data-aos-delay="100">
+            <a href="{{ route('pembelajaran.info') }}" class="border-2 border-white/50 text-white hover:bg-white hover:text-[#002343] font-semibold px-6 py-2 rounded-full transition-colors duration-300">
+                Kembali ke Pembelajaran
             </a>
         </div>
     </div>
 </section>
 
-<section class="py-16 sm:py-20 bg-gray-50">
+<!-- Search & Filter Section -->
+<section class="bg-white py-8 sm:py-12 border-b border-gray-200">
     <div class="container mx-auto px-4">
-        
-        <div class="bg-white border border-gray-100 rounded-2xl shadow-lg p-4 mb-10" data-aos="fade-up">
-            <form action="#" method="GET" class="flex flex-col md:flex-row items-center gap-4">
-                
-                <select class="w-full md:w-auto px-4 py-2 rounded-lg border border-gray-300 text-gray-600 font-medium focus:ring-2 focus:ring-[#01C0DB] focus:outline-none">
-                    <option value="">Kategori</option>
-                </select>
-                
-                <select class="w-full md:w-auto px-4 py-2 rounded-lg border border-gray-300 text-gray-600 font-medium focus:ring-2 focus:ring-[#01C0DB] focus:outline-none">
-                    <option value="">Level</option>
-                </select>
-                
-                <select class="w-full md:w-auto px-4 py-2 rounded-lg border border-gray-300 text-gray-600 font-medium focus:ring-2 focus:ring-[#01C0DB] focus:outline-none">
-                    <option value="">Harga</option>
-                </select>
-                
-                <select class="w-full md:w-auto px-4 py-2 rounded-lg border border-gray-300 text-gray-600 font-medium focus:ring-2 focus:ring-[#01C0DB] focus:outline-none">
-                    <option value="">Durasi</option>
-                </select>
-                
-                <div class="relative w-full md:w-auto md:ml-auto">
-                    <input 
-                        type="text" 
-                        placeholder="Cari Kursus" 
-                        class="w-full md:w-64 px-4 py-2 pl-10 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#01C0DB] focus:outline-none">
-                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                </div>
-            </form>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
-            <div class="group bg-white border border-gray-100 rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105" data-aos="fade-up" data-aos-delay="100">
-                <div class="h-48 overflow-hidden">
-                    <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 transition-transform duration-500 group-hover:scale-110">
-                        Placeholder Gambar
-                    </div>
-                </div>
-                <div class="p-5">
-                    <h3 class="text-lg font-bold mb-2 text-[#002343] group-hover:text-[#0157B2] transition-colors duration-300">
-                        Nama Kursus Placeholder
-                    </h3>
-                    <p class="text-sm text-gray-600 mb-4 line-clamp-2">Deskripsi singkat kursus akan muncul di sini...</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-[#0157B2] font-bold text-lg">Rp 100.000</span>
-                        <a href="#" class="inline-flex items-center text-[#0157B2] hover:text-[#01C0DB] font-bold transition-all duration-300 text-sm">
-                            <span>Lihat Detail</span>
-                            <i class="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
-                        </a>
-                    </div>
-                </div>
+        <form id="search-form" class="flex flex-col sm:flex-row gap-4">
+            <div class="flex-1">
+                <input 
+                    type="text" 
+                    id="search-input"
+                    placeholder="Cari kursus..." 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0157B2] transition-colors"
+                >
             </div>
-            
-            <div class="group bg-white border border-gray-100 rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105" data-aos="fade-up" data-aos-delay="200">
-                <div class="h-48 overflow-hidden">
-                    <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 transition-transform duration-500 group-hover:scale-110">
-                        Placeholder Gambar
-                    </div>
-                </div>
-                <div class="p-5">
-                    <h3 class="text-lg font-bold mb-2 text-[#002343] group-hover:text-[#0157B2] transition-colors duration-300">
-                        Nama Kursus Placeholder
-                    </h3>
-                    <p class="text-sm text-gray-600 mb-4 line-clamp-2">Deskripsi singkat kursus akan muncul di sini...</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-[#0157B2] font-bold text-lg">Rp 100.000</span>
-                        <a href="#" class="inline-flex items-center text-[#0157B2] hover:text-[#01C0DB] font-bold transition-all duration-300 text-sm">
-                            <span>Lihat Detail</span>
-                            <i class="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <button 
+                type="submit"
+                class="px-6 py-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300"
+            >
+                <i class="fas fa-search mr-2"></i>Cari
+            </button>
+        </form>
+    </div>
+</section>
 
-            <div class="group bg-white border border-gray-100 rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105" data-aos="fade-up" data-aos-delay="300">
-                <div class="h-48 overflow-hidden">
-                    <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 transition-transform duration-500 group-hover:scale-110">
-                        Placeholder Gambar
-                    </div>
-                </div>
-                <div class="p-5">
-                    <h3 class="text-lg font-bold mb-2 text-[#002343] group-hover:text-[#0157B2] transition-colors duration-300">
-                        Nama Kursus Placeholder
-                    </h3>
-                    <p class="text-sm text-gray-600 mb-4 line-clamp-2">Deskripsi singkat kursus akan muncul di sini...</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-[#0157B2] font-bold text-lg">Rp 100.000</span>
-                        <a href="#" class="inline-flex items-center text-[#0157B2] hover:text-[#01C0DB] font-bold transition-all duration-300 text-sm">
-                            <span>Lihat Detail</span>
-                            <i class="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tambahkan card kursus lainnya di sini -->
-        </div>
+<!-- Kursus List -->
+<section class="bg-gray-50 py-16 sm:py-20">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl sm:text-4xl font-bold text-[#002343] mb-8 pt-4" data-aos="fade-up">
+            Daftar <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0157B2] to-[#01C0DB]">Kursus</span>
+        </h2>
+        <hr class="border-t border-gray-200 mb-8">
 
+        @if($topik->count() > 0)
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {{-- LOOPING KURSUS DARI DATABASE --}}
+                @foreach($topik as $item)
+                <div class="group bg-white border border-gray-200 hover:border-sky-500 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 transform hover:shadow-xl hover:scale-105" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                    <div class="relative overflow-hidden">
+                        {{-- Thumbnail Gambar --}}
+                        @if($item->image)
+                            <img src="{{ Storage::url($item->image) }}" alt="{{ $item->title }}" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                        @else
+                            <div class="w-full h-48 bg-gray-300 flex items-center justify-center">
+                                <span class="text-gray-500">Gambar tidak tersedia</span>
+                            </div>
+                        @endif
+                        
+                        {{-- Badge Harga --}}
+                        <div class="absolute top-3 right-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            Rp {{ number_format($item->harga, 0, ',', '.') }}
+                        </div>
+                    </div>
+
+                    <div class="p-6">
+                        {{-- Icon dan Judul --}}
+                        <h3 class="text-xl font-bold text-[#002343] mb-2 flex items-center space-x-2">
+                            @if($item->icon)
+                                <i class="{{ $item->icon }} text-[#0157B2]"></i>
+                            @endif
+                            <span>{{ $item->title }}</span>
+                        </h3>
+
+                        {{-- Deskripsi Singkat --}}
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                            {!! strip_tags($item->description) !!}
+                        </p>
+
+                        {{-- Info Spesifik --}}
+                        <div class="space-y-2 text-xs text-gray-700 mb-4">
+                            <p><strong>Teknologi:</strong> {{ $item->teknologi }}</p>
+                            <p><strong>Untuk:</strong> {{ $item->untuk }}</p>
+                            <p><strong>Modul:</strong> {{ $item->modul }}</p>
+                        </div>
+
+                        {{-- Button --}}
+                        <div class="flex flex-col gap-2">
+                            <a href="{{ route('pembelajaran.show', $item->slug) }}" class="w-full inline-flex items-center justify-center px-4 py-2 bg-blue-100 hover:bg-blue-200 text-[#0157B2] font-semibold rounded-lg transition-all duration-300">
+                                <i class="fas fa-eye mr-2"></i>Lihat Detail
+                            </a>
+                            <a href="{{ route('pembelajaran.show', $item->slug) }}" class="w-full inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:shadow-lg text-white font-semibold rounded-lg transition-all duration-300">
+                                <i class="fas fa-arrow-right mr-2"></i>Pelajari
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+                {{-- AKHIR LOOPING --}}
+            </div>
+        @else
+            <div class="text-center col-span-full py-12">
+                <p class="text-gray-500 text-lg">
+                    Belum ada kursus tersedia.
+                </p>
+            </div>
+        @endif
     </div>
 </section>
 
