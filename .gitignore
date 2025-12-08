@@ -60,6 +60,12 @@ yarn.lock
 ################################
 /storage/*.key
 /storage/app/private/
+/storage/app/*
+!/storage/app/public
+/storage/app/public/*
+!/storage/app/public/pdf/
+/storage/app/public/pdf/*
+!/storage/app/public/pdf/*.pdf
 /storage/cache/
 /storage/framework/cache/
 /storage/framework/sessions/
