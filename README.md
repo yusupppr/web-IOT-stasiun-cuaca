@@ -100,10 +100,13 @@ php artisan key:generate
 php artisan migrate:fresh --seed
 ```
 
-5. **Create Storage Link**
+5. **Create Storage Link** ⚠️ **WAJIB**
 ```bash
 php artisan storage:link
 ```
+> ℹ️ Perintah ini membuat symlink `/public/storage` → `/storage/app/public`  
+> **Fungsi:** Mengakses file upload (PDF, gambar, dll) melalui URL web  
+> **Catatan:** Harus dijalankan di setiap environment (local, staging, production)
 
 6. **Run Development Server**
 ```bash
@@ -183,6 +186,48 @@ terobos/
 | `/pembelajaran/{slug}/download-pdf` | Download PDF Paket |
 | `/news` | Berita & Artikel |
 | `/admin` | Admin Panel (Filament) |
+
+---
+
+## 💾 Storage & File Management
+
+### Arsitektur Penyimpanan File
+TEROBOS menggunakan sistem dual-layer untuk file management:
+
+**Real Files** (Tracked di Git):
+```
+storage/app/public/
+├── pdf/                    → PDF materi pembelajaran
+├── thumbnails/             → Gambar cover paket
+└── news-thumbnails/        → Gambar berita
+```
+
+**Web Accessible** (Via Symlink):
+```
+public/storage/            → Symlink ke storage/app/public
+                             Dibuat dengan: php artisan storage:link
+```
+
+### Cara Kerja Symlink
+
+1. **File Upload** → Disimpan di `/storage/app/public/` (aman, tidak public)
+2. **Symlink** → `/public/storage/` menunjuk ke `/storage/app/public/`
+3. **Web Access** → URL `http://domain/storage/pdf/file.pdf` dapat diakses
+
+### Troubleshooting Storage
+
+Jika file tidak bisa diakses via browser:
+```bash
+# 1. Cek apakah symlink sudah dibuat
+ls -l public/storage
+
+# 2. Jika belum, buat symlink
+php artisan storage:link
+
+# 3. Jika sudah ada tapi error, hapus dan buat ulang
+rm public/storage
+php artisan storage:link
+```
 
 ---
 
