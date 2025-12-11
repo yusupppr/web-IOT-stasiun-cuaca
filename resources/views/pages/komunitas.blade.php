@@ -80,7 +80,7 @@
             </div>
 
             <div class="mt-6">
-              <a href="#" class="group inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:from-[#01C0DB] hover:to-[#0157B2] text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+              <a href="https://wa.me/6285155377861" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:from-[#01C0DB] hover:to-[#0157B2] text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                 Gabung Komunitas
                 <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
               </a>
@@ -125,7 +125,7 @@
             </div>
 
             <div class="mt-6">
-              <a href="#" class="group inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:from-[#01C0DB] hover:to-[#0157B2] text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+              <a href="https://wa.me/6285155377861" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:from-[#01C0DB] hover:to-[#0157B2] text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                 Mulai Berdiskusi
                 <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
               </a>

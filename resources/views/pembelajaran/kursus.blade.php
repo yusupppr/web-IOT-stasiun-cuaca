@@ -101,9 +101,6 @@
                             <a href="{{ route('pembelajaran.show', $item->slug) }}" class="w-full inline-flex items-center justify-center px-4 py-2 bg-blue-100 hover:bg-blue-200 text-[#0157B2] font-semibold rounded-lg transition-all duration-300">
                                 <i class="fas fa-eye mr-2"></i>Lihat Detail
                             </a>
-                            <a href="{{ route('pembelajaran.show', $item->slug) }}" class="w-full inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:shadow-lg text-white font-semibold rounded-lg transition-all duration-300">
-                                <i class="fas fa-arrow-right mr-2"></i>Pelajari
-                            </a>
                         </div>
                     </div>
                 </div>

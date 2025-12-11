@@ -141,10 +141,7 @@
                         <div class="flex flex-col sm:flex-row gap-3">
                             {{-- Link ke detail paket --}}
                             <a href="{{ route('pembelajaran.show', $item->slug) }}" class="group/btn inline-flex items-center justify-center px-6 py-3 bg-blue-100 group-hover:bg-white text-[#0157B2] group-hover:text-[#0157B2] font-semibold rounded-full transition-all duration-300 transform hover:scale-105">
-                                Pelajari Lanjut
-                            </a>
-                            <a href="#" class="group/btn inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] group-hover:bg-white text-white group-hover:text-[#0157B2] font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg">
-                                Daftar Paket Ini
+                               Daftar Paket Ini
                             </a>
                         </div>
                     </div>

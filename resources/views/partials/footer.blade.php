@@ -15,17 +15,11 @@
                     Membangun Inovator, Menjaga Planet. Platform edukasi robotika pertama di Indonesia dengan perangkat keras daur ulang.
                 </p>
                 
-                <div class="flex space-x-4">
-                    <a href="#" class="w-10 h-10 bg-[#01C0DB]/20 hover:bg-[#01C0DB] text-white rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                        <i class="fab fa-facebook-f"></i>
+                <div class="flex space-x-2">
+                    <a href="https://wa.me/6285155377861" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-[#01C0DB]/20 hover:bg-[#01C0DB] text-white rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                        <i class="fab fa-whatsapp"></i>
                     </a>
-                    <a href="#" class="w-10 h-10 bg-[#01C0DB]/20 hover:bg-[#01C0DB] text-white rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-[#01C0DB]/20 hover:bg-[#01C0DB] text-white rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-[#01C0DB]/20 hover:bg-[#01C0DB] text-white rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                    <a href="https://www.instagram.com/terobos.2025?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-[#01C0DB]/20 hover:bg-[#01C0DB] text-white rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
                         <i class="fab fa-instagram"></i>
                     </a>
                 </div>
@@ -99,8 +93,8 @@
                             <i class="fas fa-phone text-xs text-[#002343]"></i>
                         </div>
                         <div>
-                            <a href="tel:+62xxx" class="text-blue-200 hover:text-white transition-colors">
-                                +62xxx
+                            <a href="tel:+6285155377861" class="text-blue-200 hover:text-white transition-colors">
+                                +6285155377861
                             </a>
                         </div>
                     </li>
@@ -119,7 +113,7 @@
                             <i class="fas fa-map-marker-alt text-xs text-[#002343]"></i>
                         </div>
                         <div>
-                            <p class="text-blue-200 leading-relaxed">
+                            <p class="text-blue-200 hover:text-white transition-colors">
                                 Makamhaji, Wisma kahfi
                             </p>
                         </div>

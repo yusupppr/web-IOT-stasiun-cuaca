@@ -45,7 +45,7 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-[#002343] text-lg sm:text-xl mb-1">Telepon Kami</h4>
-                                <p><a href="tel:+62895802850204" class="text-[#0157B2] hover:underline text-sm sm:text-base">+62xx</a></p>
+                                <p><a href="https://wa.me/6285155377861" class="text-[#0157B2] hover:underline text-sm sm:text-base">+6285155377861</a></p>
                             </div>
                         </div>
 
@@ -55,7 +55,7 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-[#002343] text-lg sm:text-xl mb-1">Email Kami</h4>
-                                <p><a href="mailto:admin@rosus.my.id" class="text-[#0157B2] hover:underline text-sm sm:text-base">jarpakterobos2025@gmail.com</a></p>
+                                <p><a href="mailto:jarpakterobos2025@gmail.com" class="text-[#0157B2] hover:underline text-sm sm:text-base">jarpakterobos2025@gmail.com</a></p>
                             </div>
                         </div>
 
@@ -96,9 +96,9 @@
                         <textarea name="message" rows="5" placeholder="Tulis pesan Anda di sini..." required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#01C0DB] focus:outline-none transition duration-300 resize-none text-sm sm:text-base"></textarea>
                     </div>
 
-                    <button type="submit" class="w-full bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:from-[#01C0DB] hover:to-[#0157B2] text-white font-semibold py-3 sm:py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-md text-sm sm:text-base">
-                        Kirim Pesan <i class="fas fa-paper-plane ml-2"></i>
-                    </button>
+                    <a href="https://wa.me/6285155377861" target="_blank" rel="noopener noreferrer" class="block text-center w-full bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:from-[#01C0DB] hover:to-[#0157B2] text-white font-semibold py-3 sm:py-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-md text-sm sm:text-base">
+                    Kirim Pesan <i class="fas fa-paper-plane ml-2"></i>
+                    </a>
                 </form>
             </div>
             

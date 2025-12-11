@@ -20,8 +20,6 @@
                 </span>
                 Kami
               </h1>
-
-
               <span class="inline-block px-4 py-2 bg-white/10 text-cyan-300 rounded-full text-sm font-semibold">
                 Mendukung Keberlanjutan
               </span>
@@ -44,7 +42,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         
       <div class="bg-white border border-gray-100 rounded-2xl shadow-lg overflow-hidden flex flex-col transition-all duration-300 transform hover:scale-105" data-aos="fade-up" data-aos-delay="200">
-        <img src="{{ asset('storage/perangkat_photos/ldr_sensor.png') }}" alt="Sensor cahaya LDR" class="h-56 w-full object-cover">
+        <img src="{{ asset('storage/perangkat-photos/sensor_ldr.png') }}" alt="Sensor cahaya LDR" class="h-56 w-full object-cover">
         <div class="p-5 flex flex-col flex-grow">
           <h3 class="text-lg font-bold text-[#002343] mb-2">Sensor cahaya LDR</h3>
           <ul class="list-disc list-inside text-gray-600 text-sm space-y-1 mb-4">
@@ -68,7 +66,7 @@
       </div> 
 
       <div class="bg-white border border-gray-100 rounded-2xl shadow-lg overflow-hidden flex flex-col transition-all duration-300 transform hover:scale-105" data-aos="fade-up" data-aos-delay="300">
-        <img src="{{ asset('storage/perangkat_photos/ldr_sensor.png') }}" alt="Arduino Uno R3 Recycle" class="h-56 w-full object-cover">
+        <img src="{{ asset('storage/perangkat-photos/arduino_ide.png') }}" alt="Arduino Uno R3 Recycle" class="h-56 w-full object-cover">
         <div class="p-5 flex flex-col flex-grow">
           <h3 class="text-lg font-bold text-[#002343] mb-2">Microcontroller Arduino Uno R3 Recycle</h3>
           <ul class="list-disc list-inside text-gray-600 text-sm space-y-1 mb-4">
@@ -76,7 +74,7 @@
             <li>Spesifikasi: ATmega328P, USB connection.</li>
           </ul>
           <div class="flex-grow"></div>
-          <p class="text-base font-semibold text-[#002343] mb-5">Harga: Rp 45.000,-</p>
+          <p class="text-base font-semibold text-[#002343] mb-5">Harga: Rp 75.000,-</p>
           
           <div class="flex flex-col sm:flex-row gap-3">
             <a href="#" class="group inline-flex items-center justify-center w-full sm:w-auto px-5 py-3 bg-cyan-100 hover:bg-cyan-200 text-[#0157B2] font-semibold rounded-full transition-all duration-300 transform hover:scale-105 text-sm">
@@ -92,15 +90,15 @@
       </div> 
 
       <div class="bg-white border border-gray-100 rounded-2xl shadow-lg overflow-hidden flex flex-col transition-all duration-300 transform hover:scale-105" data-aos="fade-up" data-aos-delay="400">
-        <img src="{{ asset('storage/perangkat_photos/ldr_sensor.png') }}" alt="Sensor cahaya LDR" class="h-56 w-full object-cover">
+        <img src="{{ asset('storage/perangkat-photos/dht_11.png') }}" alt="Sensor Suhu DHT 11" class="h-56 w-full object-cover">
         <div class="p-5 flex flex-col flex-grow">
-          <h3 class="text-lg font-bold text-[#002343] mb-2">Sensor cahaya LDR</h3>
+          <h3 class="text-lg font-bold text-[#002343] mb-2">Sensor Suhu DHT 11</h3>
           <ul class="list-disc list-inside text-gray-600 text-sm space-y-1 mb-4">
-            <li>Cocok untuk proyek robot sederhana.</li>
-            <li>Spesifikasi: 12V, RPM ±150.</li>
+            <li>Pemantauan lingkungan, sistem otomatisasi.</li>
+            <li>Spesifikasi: mengukur Suhu 0-50°C, Kelembaban 20-90% RH.</li>
           </ul>
           <div class="flex-grow"></div>
-          <p class="text-base font-semibold text-[#002343] mb-5">Harga: Rp 20.000,-</p>
+          <p class="text-base font-semibold text-[#002343] mb-5">Harga: Rp 15.000,-</p>
           
           <div class="flex flex-col sm:flex-row gap-3">
             <a href="#" class="group inline-flex items-center justify-center w-full sm:w-auto px-5 py-3 bg-cyan-100 hover:bg-cyan-200 text-[#0157B2] font-semibold rounded-full transition-all duration-300 transform hover:scale-105 text-sm">
