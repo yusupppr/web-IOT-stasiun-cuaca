@@ -91,6 +91,11 @@ yarn.lock
 !/storage/app/public/project-thumbnails/*.jpg
 !/storage/app/public/project-thumbnails/*.jpeg
 !/storage/app/public/project-thumbnails/*.webp
+/storage/app/public/perangkat-photos/*
+!/storage/app/public/perangkat-photos/*.png
+!/storage/app/public/perangkat-photos/*.jpg
+!/storage/app/public/perangkat-photos/*.jpeg
+!/storage/app/public/perangkat-photos/*.webp
 /storage/cache/
 /storage/framework/cache/
 /storage/framework/sessions/
