@@ -53,11 +53,7 @@
           <p class="text-base font-semibold text-[#002343] mb-5">Harga: Rp 20.000,-</p>
           
           <div class="flex flex-col sm:flex-row gap-3">
-            <a href="#" class="group inline-flex items-center justify-center w-full sm:w-auto px-5 py-3 bg-cyan-100 hover:bg-cyan-200 text-[#0157B2] font-semibold rounded-full transition-all duration-300 transform hover:scale-105 text-sm">
-              <i class="fas fa-shopping-cart mr-2"></i>
-              Ke Keranjang
-            </a>
-            <a href="#" class="group inline-flex items-center justify-center w-full sm:w-auto px-5 py-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:from-[#01C0DB] hover:to-[#0157B2] text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg text-sm">
+            <a href="https://wa.me/6285155377861" target="_blank" class="group inline-flex items-center justify-center w-full sm:w-auto px-5 py-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:from-[#01C0DB] hover:to-[#0157B2] text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg text-sm">
               Beli Sekarang
               <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
             </a>
@@ -77,11 +73,7 @@
           <p class="text-base font-semibold text-[#002343] mb-5">Harga: Rp 75.000,-</p>
           
           <div class="flex flex-col sm:flex-row gap-3">
-            <a href="#" class="group inline-flex items-center justify-center w-full sm:w-auto px-5 py-3 bg-cyan-100 hover:bg-cyan-200 text-[#0157B2] font-semibold rounded-full transition-all duration-300 transform hover:scale-105 text-sm">
-              <i class="fas fa-shopping-cart mr-2"></i>
-              Ke Keranjang
-            </a>
-            <a href="#" class="group inline-flex items-center justify-center w-full sm:w-auto px-5 py-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:from-[#01C0DB] hover:to-[#0157B2] text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg text-sm">
+            <a href="https://wa.me/6285155377861" target="_blank" class="group inline-flex items-center justify-center w-full sm:w-auto px-5 py-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:from-[#01C0DB] hover:to-[#0157B2] text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg text-sm">
               Beli Sekarang
               <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
             </a>
@@ -101,11 +93,7 @@
           <p class="text-base font-semibold text-[#002343] mb-5">Harga: Rp 15.000,-</p>
           
           <div class="flex flex-col sm:flex-row gap-3">
-            <a href="#" class="group inline-flex items-center justify-center w-full sm:w-auto px-5 py-3 bg-cyan-100 hover:bg-cyan-200 text-[#0157B2] font-semibold rounded-full transition-all duration-300 transform hover:scale-105 text-sm">
-              <i class="fas fa-shopping-cart mr-2"></i>
-              Ke Keranjang
-            </a>
-            <a href="#" class="group inline-flex items-center justify-center w-full sm:w-auto px-5 py-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:from-[#01C0DB] hover:to-[#0157B2] text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg text-sm">
+            <a href="https://wa.me/6285155377861" target="_blank" class="group inline-flex items-center justify-center w-full sm:w-auto px-5 py-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] hover:from-[#01C0DB] hover:to-[#0157B2] text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg text-sm">
               Beli Sekarang
               <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
             </a>

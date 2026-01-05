@@ -60,22 +60,7 @@
                     <div>
                         <h3 class="text-lg font-semibold text-[#002343] mb-2">Share this article</h3>
                         <div class="flex flex-wrap gap-2">
-                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}" 
-                               target="_blank"
-                               class="inline-flex items-center px-4 py-2 bg-[#0157B2] hover:bg-[#002343] text-white rounded-lg transition-colors duration-300">
-                                <i class="fab fa-facebook-f mr-2"></i>Facebook
-                            </a>
-                            <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($news->title) }}" 
-                               target="_blank"
-                               class="inline-flex items-center px-4 py-2 bg-[#01C0DB] hover:bg-[#0157B2] text-white rounded-lg transition-colors duration-300">
-                                <i class="fab fa-twitter mr-2"></i>Twitter
-                            </a>
-                            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(request()->fullUrl()) }}" 
-                               target="_blank"
-                               class="inline-flex items-center px-4 py-2 bg-[#0157B2] hover:bg-[#002343] text-white rounded-lg transition-colors duration-300">
-                                <i class="fab fa-linkedin-in mr-2"></i>LinkedIn
-                            </a>
-                            <a href="whatsapp://send?text={{ urlencode($news->title . ' ' . request()->fullUrl()) }}" 
+                            <a href="https://wa.me/6285155377861" target="_blank" 
                                class="inline-flex items-center px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors duration-300">
                                 <i class="fab fa-whatsapp mr-2"></i>WhatsApp
                             </a>
@@ -144,16 +129,18 @@
             Stay Updated
         </h2>
         <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Subscribe to our newsletter and never miss the latest news and updates from the world of robotics.
+            Berlangganan newsletter kami dan jangan sampai ketinggalan berita serta pembaruan terbaru dari dunia robotika.
         </p>
         <div class="max-w-md mx-auto">
             <div class="flex gap-2">
                 <input type="email" 
-                       placeholder="Enter your email..." 
+                       placeholder="Masukkan email..." 
                        class="flex-1 px-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#0157B2]">
-                <button class="px-6 py-3 bg-white text-[#0157B2] hover:bg-gray-100 font-semibold rounded-lg transition-all duration-300">
-                    Subscribe
-                </button>
+                <a href="https://wa.me/6285155377861" target="_blank" rel="noopener noreferrer">
+                    <button  class="px-6 py-3 bg-white text-[#0157B2] hover:bg-gray-100 font-semibold rounded-lg transition-all duration-300">    
+                        <i class="fab fa-whatsapp"></i>
+                    </button>
+                </a>    
             </div>
         </div>
     </div>

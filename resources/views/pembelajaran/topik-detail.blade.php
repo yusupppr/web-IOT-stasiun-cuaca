@@ -60,13 +60,15 @@
                             @endif
 
                             {{-- Daftar / Beli Paket --}}
-                            <a href="#" class="group/btn w-full inline-flex items-center justify-center px-4 py-3 bg-blue-100 hover:bg-blue-200 text-[#0157B2] font-semibold rounded-full transition-all duration-300">
-                                @if($topik->harga == 0)
-                                    <i class="fas fa-check mr-2"></i> Akses Gratis Sekarang
-                                @else
+                            @if($topik->harga == 0)
+                                <button onclick="openAudiobookModal()" class="group/btn w-full inline-flex items-center justify-center px-4 py-3 bg-blue-100 hover:bg-blue-200 text-[#0157B2] font-semibold rounded-full transition-all duration-300">
+                                    <i class="fas fa-headphones mr-2"></i> Audio Book
+                                </button>
+                            @else
+                                <a href="#" class="group/btn w-full inline-flex items-center justify-center px-4 py-3 bg-blue-100 hover:bg-blue-200 text-[#0157B2] font-semibold rounded-full transition-all duration-300">
                                     <i class="fas fa-shopping-cart mr-2"></i> Beli Paket Ini
-                                @endif
-                            </a>
+                                </a>
+                            @endif
                         </div>
 
                         {{-- Info Tambahan --}}
@@ -229,5 +231,577 @@
         </div>
     </div>
 </section>
+
+{{-- Modal Audio Book --}}
+<div id="audiobookModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto no-scrollbar">
+        {{-- Modal Header --}}
+        <div class="sticky top-0 z-20 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] px-6 py-4 rounded-t-2xl flex items-center justify-between">
+            <h3 class="text-2xl font-bold text-white">
+                <i class="fas fa-headphones mr-2"></i> Audio Book
+            </h3>
+            <button onclick="closeAudiobookModal()" class="text-white hover:text-gray-200 transition-colors">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+        </div>
+
+        {{-- Modal Body --}}
+        <div class="p-6">
+            <p class="text-gray-600 mb-6 text-center">Pilih chapter yang ingin Anda dengarkan:</p>
+            
+            <!-- {{-- Audio Player (akan muncul saat audio diputar) --}}
+            <div id="audioPlayerContainer" class="hidden mb-6 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] rounded-xl p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center space-x-3">
+                        <button id="playPauseBtn" onclick="togglePlayPause()" class="w-12 h-12 bg-white text-[#0157B2] rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors">
+                            <i id="playPauseIcon" class="fas fa-play"></i>
+                        </button>
+                        <div>
+                            <p id="currentChapter" class="text-white font-semibold">Chapter 1</p>
+                            <p id="audioTime" class="text-blue-100 text-sm">00:00 / 00:00</p>
+                        </div>
+                    </div>
+                    <button onclick="stopAudio()" class="text-white hover:text-gray-200 transition-colors">
+                        <i class="fas fa-stop"></i>
+                    </button>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <input type="range" id="progressBar" min="0" max="100" value="0" class="flex-1 h-2 bg-white rounded-lg appearance-none cursor-pointer" oninput="seekAudio(this.value)">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-volume-up text-white"></i>
+                        <input type="range" id="volumeControl" min="0" max="100" value="100" class="w-20 h-2 bg-white rounded-lg appearance-none cursor-pointer" oninput="setVolume(this.value)">
+                    </div>
+                </div>
+            </div> -->
+
+            {{-- Audio Player Container --}}
+            <div id="audioPlayerContainer" class="hidden mb-6 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] rounded-xl p-4 shadow-inner">
+                <div class="flex flex-col space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            {{-- Tombol Navigasi --}}
+                            <div class="flex items-center space-x-2">
+                                <button onclick="skipAudio(-10)" class="text-white hover:text-cyan-200 transition-colors" title="Mundur 10 detik">
+                                    <i class="fas fa-undo-alt"></i>
+                                </button>
+                                
+                                <button id="playPauseBtn" onclick="togglePlayPause()" class="w-12 h-12 bg-white text-[#0157B2] rounded-full flex items-center justify-center hover:scale-105 transition-transform">
+                                    <i id="playPauseIcon" class="fas fa-play"></i>
+                                </button>
+                                
+                                <button onclick="skipAudio(10)" class="text-white hover:text-cyan-200 transition-colors" title="Maju 10 detik">
+                                    <i class="fas fa-redo-alt"></i>
+                                </button>
+
+                                <button onclick="skipAudio(60)" class="ml-2 px-2 py-1 border border-white/50 rounded text-[10px] text-white hover:bg-white/20" title="Maju 1 menit">
+                                    +1m
+                                </button>
+                            </div>
+
+                            <div>
+                                <p id="currentChapter" class="text-white font-semibold text-sm">Chapter 1</p>
+                                <p id="audioTime" class="text-blue-100 text-xs">00:00 / 00:00</p>
+                            </div>
+                        </div>
+                        
+                        <button onclick="stopAudio()" class="text-white/80 hover:text-white transition-colors">
+                            <i class="fas fa-stop text-sm"></i>
+                        </button>
+                    </div>
+
+                    {{-- Progress Bar --}}
+                    <div class="flex items-center space-x-3">
+                        <input type="range" id="progressBar" min="0" max="100" value="0" 
+                            class="flex-1 h-1.5 bg-white/30 rounded-lg appearance-none cursor-pointer" 
+                            oninput="seekAudio(this.value)">
+                        
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-volume-up text-white text-xs"></i>
+                            <input type="range" id="volumeControl" min="0" max="100" value="100" 
+                                class="w-16 h-1 bg-white/30 rounded-lg appearance-none cursor-pointer" 
+                                oninput="setVolume(this.value)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            {{-- Grid 4 Chapter --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {{-- Chapter 1 --}}
+                <div class="group bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 border-2 border-blue-200 hover:border-[#0157B2] transition-all duration-300 transform hover:scale-105">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-[#0157B2] to-[#01C0DB] rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">1</span>
+                        </div>
+                        <i class="fas fa-play-circle text-[#0157B2] text-2xl transition-colors"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-[#002343] mb-2">Chapter 1</h4>
+                    <p class="text-sm text-gray-600 mb-4">Bagian pertama dari materi pembelajaran</p>
+                    <button onclick="playChapter(1)" class="w-full bg-[#0157B2] hover:bg-[#5170ff] text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+                        <i class="fas fa-play mr-2"></i> Putar Audio
+                    </button>
+                </div>
+
+                {{-- Chapter 2 --}}
+                <div class="group bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-6 border-2 border-cyan-200 hover:border-[#01C0DB] transition-all duration-300 transform hover:scale-105">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-[#01C0DB] to-cyan-500 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">2</span>
+                        </div>
+                        <i class="fas fa-play-circle text-[#01C0DB] text-2xl transition-colors"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-[#002343] mb-2">Chapter 2</h4>
+                    <p class="text-sm text-gray-600 mb-4">Bagian kedua dari materi pembelajaran</p>
+                    <button onclick="playChapter(2)" class="w-full bg-[#01C0DB] hover:bg-cyan-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+                        <i class="fas fa-play mr-2"></i> Putar Audio
+                    </button>
+                </div>
+
+                {{-- Chapter 3 --}}
+                <div class="group bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl p-6 border-2 border-purple-200 hover:border-purple-500 transition-all duration-300 transform hover:scale-105">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-purple-400 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">3</span>
+                        </div>
+                        <i class="fas fa-play-circle text-purple-600 text-2xl transition-colors"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-[#002343] mb-2">Chapter 3</h4>
+                    <p class="text-sm text-gray-600 mb-4">Bagian ketiga dari materi pembelajaran</p>
+                    <button onclick="playChapter(3)" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+                        <i class="fas fa-play mr-2"></i> Putar Audio
+                    </button>
+                </div>
+
+                {{-- Chapter 4 --}}
+                <div class="group bg-gradient-to-br from-green-50 to-cyan-50 rounded-xl p-6 border-2 border-green-200 hover:border-green-500 transition-all duration-300 transform hover:scale-105">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-green-600 to-green-400 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">4</span>
+                        </div>
+                        <i class="fas fa-play-circle text-green-600 text-2xl transition-colors"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-[#002343] mb-2">Chapter 4</h4>
+                    <p class="text-sm text-gray-600 mb-4">Bagian keempat dari materi pembelajaran</p>
+                    <button onclick="playChapter(4)" class="w-full bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+                        <i class="fas fa-play mr-2"></i> Putar Audio
+                    </button>
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- JavaScript untuk Modal --}}
+<!-- <script>
+    let currentAudio = null;
+    let currentChapter = 0;
+
+    function openAudiobookModal() {
+        document.getElementById('audiobookModal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeAudiobookModal() {
+        // Stop audio jika sedang diputar
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+            document.getElementById('audioPlayerContainer').classList.add('hidden');
+        }
+        document.getElementById('audiobookModal').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    function playChapter(chapterNumber) {
+        // Stop audio sebelumnya jika ada
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+        }
+
+        // Path audio setelah storage:link
+        const audioUrl = `/storage/audio/chapter-${chapterNumber}.mp3`;
+        
+        // Buat audio element baru
+        currentAudio = new Audio(audioUrl);
+        currentChapter = chapterNumber;
+
+        // Tampilkan audio player
+        document.getElementById('audioPlayerContainer').classList.remove('hidden');
+        document.getElementById('currentChapter').textContent = `Chapter ${chapterNumber}`;
+        
+        // Update play/pause icon
+        document.getElementById('playPauseIcon').className = 'fas fa-pause';
+
+        // Event listeners untuk audio
+        currentAudio.addEventListener('loadedmetadata', function() {
+            updateAudioTime();
+        });
+
+        currentAudio.addEventListener('timeupdate', function() {
+            updateProgress();
+            updateAudioTime();
+        });
+
+        currentAudio.addEventListener('ended', function() {
+            document.getElementById('playPauseIcon').className = 'fas fa-play';
+            document.getElementById('progressBar').value = 0;
+        });
+
+        currentAudio.addEventListener('error', function(e) {
+            console.error('Error loading audio:', e);
+            alert('Gagal memuat audio.');
+        });
+
+        // Play audio
+        currentAudio.play().catch(function(error) {
+            console.error('Error playing audio:', error);
+            alert('Gagal memutar audio. Pastikan browser mengizinkan autoplay.');
+        });
+    }
+
+    function togglePlayPause() {
+        if (!currentAudio) return;
+
+        if (currentAudio.paused) {
+            currentAudio.play();
+            document.getElementById('playPauseIcon').className = 'fas fa-pause';
+        } else {
+            currentAudio.pause();
+            document.getElementById('playPauseIcon').className = 'fas fa-play';
+        }
+    }
+
+    function stopAudio() {
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            document.getElementById('playPauseIcon').className = 'fas fa-play';
+            document.getElementById('progressBar').value = 0;
+            updateAudioTime();
+        }
+    }
+
+    function seekAudio(value) {
+        if (!currentAudio) return;
+        const seekTime = (value / 100) * currentAudio.duration;
+        currentAudio.currentTime = seekTime;
+    }
+
+    function setVolume(value) {
+        if (!currentAudio) return;
+        currentAudio.volume = value / 100;
+    }
+
+    function updateProgress() {
+        if (!currentAudio) return;
+        const progress = (currentAudio.currentTime / currentAudio.duration) * 100;
+        document.getElementById('progressBar').value = progress || 0;
+    }
+
+    function updateAudioTime() {
+        if (!currentAudio) return;
+        const current = formatTime(currentAudio.currentTime);
+        const duration = formatTime(currentAudio.duration);
+        document.getElementById('audioTime').textContent = `${current} / ${duration}`;
+    }
+
+    function formatTime(seconds) {
+        if (!seconds || isNaN(seconds)) return '00:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    // Tutup modal saat klik di luar modal
+    document.getElementById('audiobookModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeAudiobookModal();
+        }
+    });
+
+    // Tutup modal dengan tombol ESC dan Play/Pause dengan Space
+    document.addEventListener('keydown', function(e) {
+    // 1. Logika untuk tombol Escape (Tutup Modal)
+        if (e.key === 'Escape') {
+            closeAudiobookModal();
+    }
+
+    // 2. Logika untuk tombol Space (Play/Pause)
+    // Kita cek apakah currentAudio ada dan modal sedang tidak tersembunyi
+        if (e.code === 'Space' || e.key === ' ') {
+            const modal = document.getElementById('audiobookModal');
+        
+        // Hanya jalankan jika modal terbuka dan audio sudah pernah dipilih
+        if (currentAudio && !modal.classList.contains('hidden')) {
+            // Mencegah halaman scroll ke bawah saat menekan Space (Default behavior browser)
+            e.preventDefault(); 
+            togglePlayPause();
+        }
+    }
+});
+</script> -->
+
+<script>
+    let currentAudio = null;
+    let currentChapter = 0;
+    let audioBlobUrl = null; // Menyimpan URL sementara di memori browser
+
+    function openAudiobookModal() {
+        document.getElementById('audiobookModal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeAudiobookModal() {
+        // Stop audio jika sedang diputar
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+        }
+        // Bersihkan memori dari Blob URL
+        if (audioBlobUrl) {
+            URL.revokeObjectURL(audioBlobUrl);
+            audioBlobUrl = null;
+        }
+        document.getElementById('audioPlayerContainer').classList.add('hidden');
+        document.getElementById('audiobookModal').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    async function playChapter(chapterNumber) {
+        // 1. Hentikan audio dan bersihkan memori URL sebelumnya
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+        }
+        if (audioBlobUrl) {
+            URL.revokeObjectURL(audioBlobUrl);
+        }
+
+        const playerContainer = document.getElementById('audioPlayerContainer');
+        const chapterTitle = document.getElementById('currentChapter');
+        
+        playerContainer.classList.remove('hidden');
+        chapterTitle.textContent = `Memuat Chapter ${chapterNumber}...`;
+
+        // Path audio (sesuaikan jika Anda menggunakan folder slug)
+        const audioUrl = `/storage/audio/chapter-${chapterNumber}.mp3`;
+
+        try {
+            // 2. TEKNIK KHUSUS: Download file ke memori browser (Blob)
+            // Ini agar fitur 'Seeking' lancar di localhost (php artisan serve)
+            const response = await fetch(audioUrl);
+            if (!response.ok) throw new Error("File audio tidak ditemukan");
+            
+            const blob = await response.blob();
+            audioBlobUrl = URL.createObjectURL(blob);
+            
+            currentAudio = new Audio(audioBlobUrl);
+            currentChapter = chapterNumber;
+
+            // Update UI Tampilan
+            chapterTitle.textContent = `Chapter ${chapterNumber}`;
+            document.getElementById('playPauseIcon').className = 'fas fa-pause';
+
+            // 3. Pasang ulang Event Listeners
+            currentAudio.addEventListener('loadedmetadata', updateAudioTime);
+            currentAudio.addEventListener('timeupdate', () => {
+                updateProgress();
+                updateAudioTime();
+            });
+            currentAudio.addEventListener('ended', () => {
+                document.getElementById('playPauseIcon').className = 'fas fa-play';
+                document.getElementById('progressBar').value = 0;
+            });
+
+            // Putar audio
+            currentAudio.play();
+
+        } catch (error) {
+            console.error(error);
+            alert('Gagal memuat audio. Pastikan file ada di public/storage/audio/');
+            playerContainer.classList.add('hidden');
+        }
+    }
+
+    function togglePlayPause() {
+        if (!currentAudio) return;
+
+        if (currentAudio.paused) {
+            currentAudio.play();
+            document.getElementById('playPauseIcon').className = 'fas fa-pause';
+        } else {
+            currentAudio.pause();
+            document.getElementById('playPauseIcon').className = 'fas fa-play';
+        }
+    }
+
+    function stopAudio() {
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            document.getElementById('playPauseIcon').className = 'fas fa-play';
+            document.getElementById('progressBar').value = 0;
+            updateAudioTime();
+        }
+    }
+
+    function skipAudio(seconds) {
+        // Cek apakah audio sudah siap (durasi terdeteksi)
+        if (!currentAudio || !isFinite(currentAudio.duration)) return;
+        
+        let newTime = currentAudio.currentTime + seconds;
+        
+        // Batasi agar tidak kurang dari 0 atau lebih dari durasi
+        if (newTime < 0) newTime = 0;
+        if (newTime > currentAudio.duration) newTime = currentAudio.duration;
+        
+        currentAudio.currentTime = newTime;
+    }
+
+    function seekAudio(value) {
+        if (!currentAudio || !isFinite(currentAudio.duration)) return;
+        const seekTime = (value / 100) * currentAudio.duration;
+        currentAudio.currentTime = seekTime;
+    }
+
+    function setVolume(value) {
+        if (!currentAudio) return;
+        currentAudio.volume = value / 100;
+    }
+
+    function updateProgress() {
+        if (!currentAudio || !isFinite(currentAudio.duration)) return;
+        const progress = (currentAudio.currentTime / currentAudio.duration) * 100;
+        document.getElementById('progressBar').value = progress || 0;
+    }
+
+    function updateAudioTime() {
+        if (!currentAudio) return;
+        const current = formatTime(currentAudio.currentTime);
+        const duration = isFinite(currentAudio.duration) ? formatTime(currentAudio.duration) : '00:00';
+        document.getElementById('audioTime').textContent = `${current} / ${duration}`;
+    }
+
+    function formatTime(seconds) {
+        if (!seconds || isNaN(seconds)) return '00:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    // Tutup modal saat klik di luar modal
+    document.getElementById('audiobookModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeAudiobookModal();
+        }
+    });
+
+    // Kontrol Keyboard (Space, Arrow Keys, ESC)
+    document.addEventListener('keydown', function(e) {
+        const modal = document.getElementById('audiobookModal');
+        if (modal.classList.contains('hidden')) return;
+
+        if (e.key === 'Escape') {
+            closeAudiobookModal();
+        }
+
+        if (e.code === 'Space' || e.key === ' ') {
+            if (currentAudio) {
+                e.preventDefault(); 
+                togglePlayPause();
+            }
+        }
+
+        if (e.key === 'ArrowRight') {
+            if (currentAudio) {
+                e.preventDefault();
+                skipAudio(10); // Maju 10 detik
+            }
+        }
+
+        if (e.key === 'ArrowLeft') {
+            if (currentAudio) {
+                e.preventDefault();
+                skipAudio(-10); // Mundur 10 detik
+            }
+        }
+    });
+</script>
+{{-- Styling untuk Range Input (Progress Bar & Volume) --}}
+<style>
+    /* Progress Bar Styling */
+    #progressBar {
+        -webkit-appearance: none;
+        appearance: none;
+        background: rgba(255, 255, 255, 0.3);
+        height: 6px;
+        border-radius: 5px;
+        outline: none;
+    }
+
+    #progressBar::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: white;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    #progressBar::-moz-range-thumb {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: white;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Volume Control Styling */
+    #volumeControl {
+        -webkit-appearance: none;
+        appearance: none;
+        background: rgba(255, 255, 255, 0.3);
+        height: 4px;
+        border-radius: 5px;
+        outline: none;
+    }
+
+    #volumeControl::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: white;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    #volumeControl::-moz-range-thumb {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: white;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Hide scrollbar untuk modal */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+</style>
 
 @endsection

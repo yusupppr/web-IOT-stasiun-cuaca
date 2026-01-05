@@ -123,10 +123,7 @@ Homestead.yaml
 # DOCUMENTATION FILES (Temporary)
 ################################
 # Temporary analysis and documentation during development
-ANALISIS_CODE_CLEANUP.md
-DAMPAK_PENGHAPUSAN_CODE.md
-FITUR_PAKET_DETAIL.md
-PANDUAN_GAMBAR_DESKRIPSI.md
+*.md
 
 ################################
 # DATABASE FILES
